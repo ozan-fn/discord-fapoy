@@ -1,42 +1,32 @@
-import { SlashCommandBuilder, ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, GuildMember, User } from "discord.js"
+import { SlashCommandBuilder, ActionRowBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, GuildMember, User } from "discord.js";
 import { SlashCommand } from "../types";
 
-const command : SlashCommand = {
-    command: new SlashCommandBuilder()
-        .setName("whoami")
-        .setDescription("Who am I?")
-    ,
+const command: SlashCommand = {
+    command: new SlashCommandBuilder().setName("whoami").setDescription("Who am I?"),
     execute: async (interaction) => {
         await interaction.deferReply({ ephemeral: true });
 
-        if (!interaction.channel) return
+        if (!interaction.channel) return;
 
-        const embed = new EmbedBuilder()
-            .setTitle("Who am I?")
-            .setFields(
-                { name: " ", value: "Click button below to know who you are!" }
-            );
+        const embed = new EmbedBuilder().setTitle("Who am I?").setFields({ name: " ", value: "Click button below to know who you are!" });
 
-        const button = new ButtonBuilder()
-            .setCustomId("whoami")
-            .setLabel("Click Here")
-            .setStyle(ButtonStyle.Primary);
+        const button = new ButtonBuilder().setCustomId("whoami").setLabel("Click Here").setStyle(ButtonStyle.Primary);
 
         const buttonRow = new ActionRowBuilder<ButtonBuilder>().addComponents(button);
 
         await interaction.channel.send({
             embeds: [embed],
-            components: [buttonRow]
+            components: [buttonRow],
         });
 
-		await interaction.editReply({ content: "Your request has been sent!" });
+        await interaction.editReply({ content: "Your request has been sent!" });
     },
     button: async (interaction) => {
         await interaction.deferReply({ ephemeral: true });
-        
-        if (!interaction.channel || !interaction.guild) return
-        if (!interaction.user || !(interaction.user instanceof User)) return
-        if (!interaction.member || !(interaction.member instanceof GuildMember)) return
+
+        if (!interaction.channel || !interaction.guild) return;
+        if (!interaction.user || !(interaction.user instanceof User)) return;
+        if (!interaction.member || !(interaction.member instanceof GuildMember)) return;
 
         const guild = interaction.guild;
         const channel = interaction.channel;
@@ -56,7 +46,7 @@ const command : SlashCommand = {
 
         await interaction.editReply({ content: "Your request has been sent!" });
     },
-    cooldown: 5
-}
+    cooldown: 5,
+};
 
-export default command
+export default command;
